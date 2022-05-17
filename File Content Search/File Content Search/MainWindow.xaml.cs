@@ -21,7 +21,8 @@ namespace File_Content_Search
     public partial class MainWindow : Window
     {
         public MainWindow()
-        {
+
+        {   // Thanks to DavidDr90 https://stackoverflow.com/questions/33654318/c-sharp-run-powershell-command-get-output-as-it-arrives
             InitializeComponent();
         }
     }
