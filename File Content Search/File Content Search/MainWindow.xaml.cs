@@ -1,4 +1,6 @@
-﻿using System;
+﻿using File_Content_Search.Implementations;
+using File_Content_Search.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,9 +23,12 @@ namespace File_Content_Search
     public partial class MainWindow : Window
     {
         public MainWindow()
-
-        {   // Thanks to DavidDr90 https://stackoverflow.com/questions/33654318/c-sharp-run-powershell-command-get-output-as-it-arrives
+        { 
             InitializeComponent();
+
+            IScriptRunner searcher = new PowerShellSearcher();
+
+            searcher.Search(searchString: "Jesus", directory: "D:\\songs");
         }
     }
 }

@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace File_Content_Search.Interfaces
 {
-    internal interface ISearchTool
+    internal interface IScriptRunner
     {
+        public void Search(string searchString, string directory);
     }
 }
