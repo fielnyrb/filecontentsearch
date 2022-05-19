@@ -1,5 +1,6 @@
 ﻿using File_Content_Search.Implementations;
 using File_Content_Search.Interfaces;
+using File_Content_Search.Structures;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,13 +23,25 @@ namespace File_Content_Search
     /// </summary>
     public partial class MainWindow : Window
     {
+
+        public bool somethingFound;
+
         public MainWindow()
         { 
             InitializeComponent();
+        }
 
+        private void button_Click(object sender, RoutedEventArgs e)
+        {
             IScriptRunner searcher = new PowerShellSearcher();
 
-            searcher.Search(searchString: "Jesus", directory: "D:\\songs");
+            List<FoundItem> foundItems = searcher.Search(searchString: textBox.Text, directory: "C:\\Users\\User\\OneDrive\\Documents\\ProPresenter\\Libraries\\Default");
+
+            listBox.ItemsSource = foundItems;
+            if (foundItems.Count > 0)
+            {
+                somethingFound = true;
+            }
         }
     }
 }

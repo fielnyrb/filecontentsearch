@@ -1,4 +1,5 @@
-﻿using System;
+﻿using File_Content_Search.Structures;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,6 @@ namespace File_Content_Search.Interfaces
 {
     internal interface IScriptRunner
     {
-        public void Search(string searchString, string directory);
+        public List<FoundItem> Search(string searchString, string directory);
     }
 }
