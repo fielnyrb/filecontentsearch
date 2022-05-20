@@ -3,6 +3,7 @@ using File_Content_Search.Interfaces;
 using File_Content_Search.Structures;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,25 +24,25 @@ namespace File_Content_Search
     /// </summary>
     public partial class MainWindow : Window
     {
-
-        public bool somethingFound;
+        public string searchDirectory;
 
         public MainWindow()
-        { 
+        {
             InitializeComponent();
+
+            searchDirectory = File.ReadAllText(@"DataFiles\directory.txt");
+
+            textBoxDirectory.Text = searchDirectory;
         }
 
         private void button_Click(object sender, RoutedEventArgs e)
         {
-            IScriptRunner searcher = new PowerShellSearcher();
+            ICharacterEscaper characterEscaper = new SearchStringCharacterEscaper();
+            IScriptRunner searcher = new PowerShellSearcher(characterEscaper);
 
-            List<FoundItem> foundItems = searcher.Search(searchString: textBox.Text, directory: "C:\\Users\\User\\OneDrive\\Documents\\ProPresenter\\Libraries\\Default");
+            List<FoundItem> foundItems = searcher.Search(searchString: textBox.Text, directory: searchDirectory);
 
             listBox.ItemsSource = foundItems;
-            if (foundItems.Count > 0)
-            {
-                somethingFound = true;
-            }
         }
     }
 }

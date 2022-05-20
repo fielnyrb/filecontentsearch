@@ -13,6 +13,14 @@ namespace File_Content_Search.Implementations
 {
     internal class PowerShellSearcher : IScriptRunner
     {
+
+        ICharacterEscaper CharacterEscaper;
+
+        public PowerShellSearcher(ICharacterEscaper characterEscaper)
+        {
+            CharacterEscaper = characterEscaper;
+        }
+
         public List<FoundItem> Search(string searchString, string directory)
         {
             List<FoundItem> foundItems = new List<FoundItem>();
@@ -21,7 +29,7 @@ namespace File_Content_Search.Implementations
             using (PowerShell powerShell = PowerShell.Create())
             {
                 // Source functions.
-                powerShell.AddScript("gci '" + directory + "' -include '*.pro' -recurse ` | select-string -pattern '" + searchString + "' ` | Select-Object -Unique Path");
+                powerShell.AddScript("gci '" + directory + "' -include '*.pro' -recurse ` | select-string -pattern '" + CharacterEscaper.Apply(searchString) + "' ` | Select-Object -Unique Path");
 
                 // invoke execution on the pipeline (collecting output)
                 Collection<PSObject> PSOutput = powerShell.Invoke();

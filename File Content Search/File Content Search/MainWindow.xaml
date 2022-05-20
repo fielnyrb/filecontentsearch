@@ -6,8 +6,17 @@
         xmlns:local="clr-namespace:File_Content_Search"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid Margin="0,66,0,0">
-        <ListBox x:Name="listBox" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="0,22,0,0">
+    <Grid Margin="0,65,0,0">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="91*"/>
+            <ColumnDefinition Width="441*"/>
+            <ColumnDefinition Width="268*"/>
+        </Grid.ColumnDefinitions>
+
+        <TextBox x:Name="textBox" HorizontalAlignment="Left" Margin="27,-40,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="410" Grid.ColumnSpan="2" />
+        <Button x:Name="button" Content="Search" IsDefault="True" HorizontalAlignment="Left" Margin="351,-42,0,0" VerticalAlignment="Top" Click="button_Click" Grid.Column="1"/>
+
+        <ListBox x:Name="listBox" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="0,40,0,0" Grid.ColumnSpan="3" >
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Grid Margin="0,2">
@@ -37,7 +46,7 @@
                 </Style>
             </ListBox.Style>
         </ListBox>
-        <TextBox x:Name="textBox" HorizontalAlignment="Left" Margin="27,-40,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="410"/>
-        <Button x:Name="button" Content="Search" IsDefault="True" HorizontalAlignment="Left" Margin="442,-42,0,0" VerticalAlignment="Top" Click="button_Click"/>
+        <TextBox x:Name="textBoxDirectory" HorizontalAlignment="Left" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="431" Grid.Column="1" IsEnabled="False"/>
+        <Label x:Name="label" Content="Directory" HorizontalAlignment="Left" Margin="23,-4,0,0" VerticalAlignment="Top"/>
     </Grid>
 </Window>
