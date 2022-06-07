@@ -48,5 +48,6 @@
         </ListBox>
         <TextBox x:Name="textBoxDirectory" HorizontalAlignment="Left" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="431" Grid.Column="1" IsEnabled="False"/>
         <Label x:Name="label" Content="Directory" HorizontalAlignment="Left" Margin="23,-4,0,0" VerticalAlignment="Top"/>
+        <Button x:Name="button_Import_Library" Grid.Column="1" Content="Import Library" HorizontalAlignment="Left" Margin="395,-42,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2" Click="button_Import_Library_Click"/>
     </Grid>
 </Window>

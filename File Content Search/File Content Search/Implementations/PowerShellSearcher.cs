@@ -29,7 +29,7 @@ namespace File_Content_Search.Implementations
             using (PowerShell powerShell = PowerShell.Create())
             {
                 // Source functions.
-                powerShell.AddScript("gci '" + directory + "' -include '*.pro' -recurse ` | select-string -pattern '" + CharacterEscaper.Apply(searchString) + "' ` | Select-Object -Unique Path");
+                powerShell.AddScript("gci '" + directory + "' -include '*.txt' -recurse ` | select-string -pattern '" + CharacterEscaper.Apply(searchString) + "' ` | Select-Object -Unique Path");
 
                 // invoke execution on the pipeline (collecting output)
                 Collection<PSObject> PSOutput = powerShell.Invoke();
