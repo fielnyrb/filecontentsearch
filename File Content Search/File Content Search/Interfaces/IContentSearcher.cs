@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace File_Content_Search.Interfaces
 {
-    internal interface IScriptRunner
+    internal interface IContentSearcher
     {
         public List<FoundItem> Search(string searchString, string directory);
     }

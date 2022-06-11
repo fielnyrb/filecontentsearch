@@ -40,7 +40,7 @@ namespace File_Content_Search
         private void button_Click(object sender, RoutedEventArgs e)
         {
             ICharacterEscaper characterEscaper = new SearchStringCharacterEscaper();
-            IScriptRunner searcher = new PowerShellSearcher(characterEscaper);
+            IContentSearcher searcher = new PowerShellSearcher(characterEscaper);
 
             List<FoundItem> foundItems = searcher.Search(searchString: textBox.Text, directory: searchDirectory);
 

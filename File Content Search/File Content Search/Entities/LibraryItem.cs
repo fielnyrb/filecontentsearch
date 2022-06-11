@@ -10,5 +10,6 @@ namespace File_Content_Search.Entities
     {
         public long LibraryItemId { get; set; }
         public string Title { get; set; }
+        public string Content { get; set; }
     }
 }

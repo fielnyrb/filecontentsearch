@@ -11,7 +11,7 @@ using System.Windows;
 
 namespace File_Content_Search.Implementations
 {
-    internal class PowerShellSearcher : IScriptRunner
+    internal class PowerShellSearcher : IContentSearcher
     {
 
         ICharacterEscaper CharacterEscaper;
