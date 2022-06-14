@@ -1,14 +1,9 @@
-﻿using File_Content_Search.Interfaces;
+﻿using File_Content_Search.Entities;
+using File_Content_Search.Interfaces;
 using File_Content_Search.Structures;
-using System.Collections.Generic;
-
-using System;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using File_Content_Search.Entities;
-using Microsoft.EntityFrameworkCore;
 
 namespace File_Content_Search.Implementations
 {
@@ -18,10 +13,22 @@ namespace File_Content_Search.Implementations
         {
             List<FoundItem> foundItems = new List<FoundItem>();
 
+            if (searchString.Trim() == "")
+            {
+                return foundItems;
+            }
+
             var context = new MyContext();
 
-            var query = context.LibraryItems.Include(p => new FoundItem(p.Title))
-                .Where(p => EF.Functions.Like(searchString, p.Title)).ToList();
+            List<string> query = context.LibraryItems
+                .Where(p => p.Content.Contains(searchString))
+                .Select(q => q.Title)
+                .ToList();
+
+            foreach (string item in query)
+            {
+                foundItems.Add(new FoundItem(item));
+            }
 
             return foundItems;
         }
