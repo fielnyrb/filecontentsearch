@@ -10,13 +10,30 @@ namespace File_Content_Search.Implementations
     {
         public void ImportLibrary(string libraryFilePath)
         {
+
+            long newLibrary;
+
+            using (var context = new MyContext())
+            {
+                var library = new Library
+                {
+                    Name = "lib"
+                };
+
+                context.Libraries.Add(library);
+                context.SaveChanges();
+
+                newLibrary = library.LibraryId;
+            }
+
+
             string fullLibrary = File.ReadAllText(libraryFilePath);
 
             List<string> fullItem = fullLibrary.Split("Title: ").ToList();
 
             foreach (string item in fullItem)
             {
-                if(item == "")
+                if (item == "")
                 {
                     continue;
                 }
@@ -29,10 +46,12 @@ namespace File_Content_Search.Implementations
                     var libraryItem = new LibraryItem
                     {
                         Title = title,
-                        Content = content
+                        Content = content,
+                        LibraryId = newLibrary
                     };
 
                     context.LibraryItems.Add(libraryItem);
+
                     context.SaveChanges();
                 }
             }

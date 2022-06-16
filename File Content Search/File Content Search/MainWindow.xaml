@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:File_Content_Search"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="File Content Search" Height="450" Width="800">
     <Grid Margin="0,65,0,0">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="91*"/>
@@ -16,7 +16,7 @@
         <TextBox x:Name="textBox" HorizontalAlignment="Left" Margin="27,-40,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="410" Grid.ColumnSpan="2" />
         <Button x:Name="button" Content="Search" IsDefault="True" HorizontalAlignment="Left" Margin="351,-42,0,0" VerticalAlignment="Top" Click="button_Click" Grid.Column="1"/>
 
-        <ListBox x:Name="listBox" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="0,40,0,0" Grid.ColumnSpan="3" >
+        <ListBox x:Name="listBox" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="0,27,235,0" Grid.ColumnSpan="3" >
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Grid Margin="0,2">

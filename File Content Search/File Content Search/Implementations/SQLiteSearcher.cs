@@ -22,7 +22,7 @@ namespace File_Content_Search.Implementations
 
             List<string> query = context.LibraryItems
                 .Where(p => p.Content.Contains(searchString))
-                .Select(q => q.Title)
+                .Select(q => q.Title + " - " + q.LibraryId)
                 .ToList();
 
             foreach (string item in query)

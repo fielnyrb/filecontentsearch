@@ -10,6 +10,7 @@ namespace File_Content_Search.Entities
     public class MyContext : DbContext
     {
         public DbSet<LibraryItem> LibraryItems { get; set; }
+        public DbSet<Library> Libraries { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -19,6 +20,7 @@ namespace File_Content_Search.Entities
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<LibraryItem>().ToTable("LibraryItems");
+            modelBuilder.Entity<Library>().ToTable("Libraries");
         }
     }
 }
