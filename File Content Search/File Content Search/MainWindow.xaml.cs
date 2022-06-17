@@ -1,6 +1,7 @@
 ﻿using File_Content_Search.Implementations;
 using File_Content_Search.Interfaces;
 using File_Content_Search.Structures;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -24,32 +25,48 @@ namespace File_Content_Search
     /// </summary>
     public partial class MainWindow : Window
     {
-        public string searchDirectory;
         public string libraryImportDirectory;
 
         public MainWindow()
         {
             InitializeComponent();
 
-            searchDirectory = File.ReadAllText(@"DataFiles\directory.txt");
             libraryImportDirectory = "D:\\songs2\\ProPresenter Export.txt";
 
-            textBoxDirectory.Text = searchDirectory;
+            ILibraryDataSource libraryDataSource = new LibrarySource();
+
+            listBoxLibraries.ItemsSource = libraryDataSource.GetLibraries();
         }
 
-        private void button_Click(object sender, RoutedEventArgs e)
+        private void buttonSearch_Click(object sender, RoutedEventArgs e)
         {
             IContentSearcher searcher = new SQLiteSearcher();
 
-            List<FoundItem> foundItems = searcher.Search(searchString: textBox.Text, directory: searchDirectory);
+            List<FoundItem> foundItems = searcher.Search(searchString: textBox.Text, directory: "");
 
             listBox.ItemsSource = foundItems;
         }
 
         private void button_Import_Library_Click(object sender, RoutedEventArgs e)
         {
-            ILibraryImporter libraryImporter = new LibraryImporter();
-            libraryImporter.ImportLibrary(libraryImportDirectory);
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+
+            string fileName = "";
+
+            if (openFileDialog.ShowDialog() == true)
+            {
+                fileName = openFileDialog.FileName;
+            }
+
+            if (fileName != "")
+            {
+                if (File.Exists(fileName))
+                {
+                    ILibraryImporter libraryImporter = new LibraryImporter();
+                    libraryImporter.ImportLibrary(libraryImportDirectory);
+                }
+            }
+
         }
     }
 }
