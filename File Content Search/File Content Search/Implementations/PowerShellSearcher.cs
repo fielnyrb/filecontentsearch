@@ -40,7 +40,7 @@ namespace File_Content_Search.Implementations
                     // if null object was dumped to the pipeline during the script then a null object may be present here
                     if (outputItem != null)
                     {
-                        foundItems.Add(new FoundItem($"{outputItem}"));
+                        foundItems.Add(new FoundItem($"{outputItem}", ""));
                     }
                 }
 

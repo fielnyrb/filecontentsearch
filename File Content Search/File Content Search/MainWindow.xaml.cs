@@ -25,17 +25,13 @@ namespace File_Content_Search
     /// </summary>
     public partial class MainWindow : Window
     {
-        public string libraryImportDirectory;
-
         public MainWindow()
         {
             InitializeComponent();
 
-            libraryImportDirectory = "D:\\songs2\\ProPresenter Export.txt";
-
             ILibraryDataSource libraryDataSource = new LibrarySource();
 
-            listBoxLibraries.ItemsSource = libraryDataSource.GetLibraries();
+            listBoxLibraries.ItemsSource = libraryDataSource.GetLibrariesInformation();
         }
 
         private void buttonSearch_Click(object sender, RoutedEventArgs e)
@@ -63,7 +59,7 @@ namespace File_Content_Search
                 if (File.Exists(fileName))
                 {
                     ILibraryImporter libraryImporter = new LibraryImporter();
-                    libraryImporter.ImportLibrary(libraryImportDirectory);
+                    libraryImporter.ImportLibrary(fileName);
                 }
             }
 

@@ -1,5 +1,6 @@
 ﻿using File_Content_Search.Entities;
 using File_Content_Search.Interfaces;
+using File_Content_Search.Structures;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,15 +11,19 @@ namespace File_Content_Search.Implementations
 {
     internal class LibrarySource : ILibraryDataSource
     {
-        public List<Library> GetLibraries()
+        public List<LibraryInformation> GetLibrariesInformation()
         {
             List<Library> libraries = new List<Library>();
-            
             var context = new MyContext();
-
             libraries = context.Libraries.Select(q => q).ToList();
 
-            return libraries;
+            List<LibraryInformation> librariesInformation = new List<LibraryInformation>();
+            foreach (var library in libraries)
+            {
+                librariesInformation.Add(new LibraryInformation(library.Name));
+            }
+
+            return librariesInformation;
         }
     }
 }

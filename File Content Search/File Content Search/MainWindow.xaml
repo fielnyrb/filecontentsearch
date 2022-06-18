@@ -19,13 +19,11 @@
         <ListBox x:Name="listBox" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="0,27,235,10" Grid.ColumnSpan="3" >
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <Grid Margin="0,2">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="100"/>
-                        </Grid.ColumnDefinitions>
-                        <TextBlock Text="{Binding ItemName}"></TextBlock>
-                    </Grid>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding ItemName}" />
+                        <TextBlock Text=" - "/>
+                        <TextBlock Text="{Binding LibraryName}" />
+                    </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>
             <ListBox.Style>

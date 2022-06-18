@@ -20,14 +20,22 @@ namespace File_Content_Search.Implementations
 
             var context = new MyContext();
 
-            List<string> query = context.LibraryItems
-                .Where(p => p.Content.Contains(searchString))
-                .Select(q => q.Title + " - " + q.LibraryId)
-                .ToList();
+            //var query = context.LibraryItems
+            //    .Join(y => context.Libraries on )
+            //    .Where(p => p.Content.Contains(searchString))
+            //    .Select(q => q)
+            //    .ToList();
 
-            foreach (string item in query)
+            var query = from LibraryItem libraryItem in context.LibraryItems
+                        join Library libraries in context.Libraries on libraryItem.LibraryId equals libraries.LibraryId
+                        where libraryItem.Content.Contains(searchString)
+                        select new { ItemTitle = libraryItem.Title, LibraryName = libraries.Name };
+
+            foreach (var item in query)
             {
-                foundItems.Add(new FoundItem(item));
+                FoundItem tempFoundItem = new FoundItem(item.ItemTitle, item.LibraryName);
+
+                foundItems.Add(tempFoundItem);
             }
 
             return foundItems;
