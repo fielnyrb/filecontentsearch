@@ -20,7 +20,7 @@ namespace File_Content_Search.Implementations
             List<LibraryInformation> librariesInformation = new List<LibraryInformation>();
             foreach (var library in libraries)
             {
-                librariesInformation.Add(new LibraryInformation(library.Name));
+                librariesInformation.Add(new LibraryInformation(library.Name, library.LibraryId));
             }
 
             return librariesInformation;

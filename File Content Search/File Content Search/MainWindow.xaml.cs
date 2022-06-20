@@ -64,5 +64,15 @@ namespace File_Content_Search
             }
 
         }
+
+        private void buttonDeleteSelectedLibrary_Click(object sender, RoutedEventArgs e)
+        {
+            LibraryInformation libraryInformation;
+
+            if (listBoxLibraries.SelectedIndex != -1)
+            {
+                libraryInformation = (LibraryInformation)listBoxLibraries.SelectedItem;
+            }
+        }
     }
 }

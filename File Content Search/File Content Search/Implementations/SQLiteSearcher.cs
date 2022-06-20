@@ -20,12 +20,6 @@ namespace File_Content_Search.Implementations
 
             var context = new MyContext();
 
-            //var query = context.LibraryItems
-            //    .Join(y => context.Libraries on )
-            //    .Where(p => p.Content.Contains(searchString))
-            //    .Select(q => q)
-            //    .ToList();
-
             var query = from LibraryItem libraryItem in context.LibraryItems
                         join Library libraries in context.Libraries on libraryItem.LibraryId equals libraries.LibraryId
                         where libraryItem.Content.Contains(searchString)

@@ -56,7 +56,8 @@
                         <TextBlock Text="{Binding Name}"></TextBlock>
                     </Grid>
                 </DataTemplate>
-            </ListBox.ItemTemplate>            
+            </ListBox.ItemTemplate>
         </ListBox>
+        <Button x:Name="buttonDeleteSelectedLibrary" Grid.Column="2" Content="Delete selected" HorizontalAlignment="Left" Margin="38,2,0,0" VerticalAlignment="Top" Click="buttonDeleteSelectedLibrary_Click"/>
     </Grid>
 </Window>
