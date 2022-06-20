@@ -72,6 +72,8 @@ namespace File_Content_Search
             if (listBoxLibraries.SelectedIndex != -1)
             {
                 libraryInformation = (LibraryInformation)listBoxLibraries.SelectedItem;
+                ILibraryDeleter libraryDeleter = new LibraryDeleter();
+                libraryDeleter.DeleteLibrary(libraryInformation.LibraryInformationId);
             }
         }
     }
