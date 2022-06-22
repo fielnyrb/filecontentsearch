@@ -1,4 +1,5 @@
-﻿using File_Content_Search.Implementations;
+﻿using File_Content_Search.Entities;
+using File_Content_Search.Implementations;
 using File_Content_Search.Interfaces;
 using File_Content_Search.Structures;
 using Microsoft.Win32;
@@ -72,7 +73,7 @@ namespace File_Content_Search
             if (listBoxLibraries.SelectedIndex != -1)
             {
                 libraryInformation = (LibraryInformation)listBoxLibraries.SelectedItem;
-                ILibraryDeleter libraryDeleter = new LibraryDeleter();
+                ILibraryDeleter libraryDeleter = new LibraryDeleter(new MyContext());
                 libraryDeleter.DeleteLibrary(libraryInformation.LibraryInformationId);
             }
         }
