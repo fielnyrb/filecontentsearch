@@ -8,7 +8,7 @@ namespace File_Content_Search.Entities
 {
     public class LibraryItem
     {
-        public long LibraryItemId { get; set; }
+        public Guid LibraryItemId { get; set; }
         public string Title { get; set; }
         public string Content { get; set; }
         public long LibraryId { get; set; }

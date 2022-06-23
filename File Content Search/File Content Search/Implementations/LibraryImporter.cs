@@ -10,6 +10,13 @@ namespace File_Content_Search.Implementations
 {
     internal class LibraryImporter : ILibraryImporter
     {
+        ITextMinimizer minimizer;
+
+        public LibraryImporter(ITextMinimizer minimizer)
+        {
+            this.minimizer = minimizer;
+        }
+
         public void ImportLibrary(string libraryFilePath)
         {
             string libraryItemsContent = "";
@@ -59,6 +66,8 @@ namespace File_Content_Search.Implementations
 
                 string title = item.Split("\r\n").ToList()[0];
                 string content = item;
+
+                content = minimizer.minimize(content);
 
                 using (var context = new MyContext())
                 {

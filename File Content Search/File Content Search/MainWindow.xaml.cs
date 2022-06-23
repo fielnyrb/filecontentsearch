@@ -26,12 +26,20 @@ namespace File_Content_Search
     /// </summary>
     public partial class MainWindow : Window
     {
+        ILibraryDataSource libraryDataSource;
+        ITextMinimizer minimizer;
+
         public MainWindow()
         {
             InitializeComponent();
+            PopulateLibraryList();
 
-            ILibraryDataSource libraryDataSource = new LibrarySource();
+            minimizer = new TextMinimizer();
+        }
 
+        private void PopulateLibraryList()
+        {
+            libraryDataSource = new LibrarySource();
             listBoxLibraries.ItemsSource = libraryDataSource.GetLibrariesInformation();
         }
 
@@ -39,7 +47,7 @@ namespace File_Content_Search
         {
             IContentSearcher searcher = new SQLiteSearcher();
 
-            List<FoundItem> foundItems = searcher.Search(searchString: textBox.Text, directory: "");
+            List<FoundItem> foundItems = searcher.Search(searchString: minimizer.minimize(textBox.Text), directory: "");
 
             listBox.ItemsSource = foundItems;
         }
@@ -59,11 +67,12 @@ namespace File_Content_Search
             {
                 if (File.Exists(fileName))
                 {
-                    ILibraryImporter libraryImporter = new LibraryImporter();
+                    ILibraryImporter libraryImporter = new LibraryImporter(minimizer);
                     libraryImporter.ImportLibrary(fileName);
                 }
             }
 
+            PopulateLibraryList();
         }
 
         private void buttonDeleteSelectedLibrary_Click(object sender, RoutedEventArgs e)
@@ -76,6 +85,8 @@ namespace File_Content_Search
                 ILibraryDeleter libraryDeleter = new LibraryDeleter(new MyContext());
                 libraryDeleter.DeleteLibrary(libraryInformation.LibraryInformationId);
             }
+
+            PopulateLibraryList();
         }
     }
 }

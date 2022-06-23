@@ -9,14 +9,15 @@
     <Grid Margin="0,65,0,0">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="91*"/>
-            <ColumnDefinition Width="441*"/>
+            <ColumnDefinition Width="413*"/>
+            <ColumnDefinition Width="28*"/>
             <ColumnDefinition Width="268*"/>
         </Grid.ColumnDefinitions>
 
-        <TextBox x:Name="textBox" HorizontalAlignment="Left" Margin="27,-40,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="410" Grid.ColumnSpan="2" />
-        <Button x:Name="buttonSearch" Content="Search" IsDefault="True" HorizontalAlignment="Left" Margin="351,-42,0,0" VerticalAlignment="Top" Click="buttonSearch_Click" Grid.Column="1"/>
+        <TextBox x:Name="textBox" HorizontalAlignment="Left" Margin="27,-40,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="538" Grid.ColumnSpan="4" />
+        <Button x:Name="buttonSearch" Content="Search" IsDefault="True" Margin="38,-40,0,0" VerticalAlignment="Top" Click="buttonSearch_Click" Grid.Column="3" HorizontalAlignment="Left" Width="85"/>
 
-        <ListBox x:Name="listBox" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="0,27,235,10" Grid.ColumnSpan="3" >
+        <ListBox x:Name="listBox" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="0,27,0,10" Grid.ColumnSpan="4" HorizontalAlignment="Left" Width="565" >
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
@@ -44,8 +45,8 @@
                 </Style>
             </ListBox.Style>
         </ListBox>
-        <Button x:Name="button_Import_Library" Grid.Column="1" Content="Import Library" HorizontalAlignment="Left" Margin="395,-42,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2" Click="button_Import_Library_Click"/>
-        <ListBox x:Name="listBoxLibraries" Grid.Column="2" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="38,27,10,10">
+        <Button x:Name="button_Import_Library" Grid.Column="3" Content="Import Library" HorizontalAlignment="Left" Margin="128,2,0,0" VerticalAlignment="Top" Click="button_Import_Library_Click"/>
+        <ListBox x:Name="listBoxLibraries" Grid.Column="3" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="38,27,10,10">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Grid Margin="0,2">
@@ -58,6 +59,6 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-        <Button x:Name="buttonDeleteSelectedLibrary" Grid.Column="2" Content="Delete selected" HorizontalAlignment="Left" Margin="38,2,0,0" VerticalAlignment="Top" Click="buttonDeleteSelectedLibrary_Click"/>
+        <Button x:Name="buttonDeleteSelectedLibrary" Grid.Column="3" Content="Delete selected" HorizontalAlignment="Left" Margin="38,2,0,0" VerticalAlignment="Top" Click="buttonDeleteSelectedLibrary_Click"/>
     </Grid>
 </Window>
