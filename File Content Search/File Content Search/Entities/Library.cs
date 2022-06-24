@@ -10,5 +10,6 @@ namespace File_Content_Search.Entities
     {
         public long LibraryId { get; set; }
         public string Name { get; set; }
+        public DateTime ImportDateTime { get; set; }
     }
 }

@@ -41,7 +41,8 @@ namespace File_Content_Search.Implementations
             {
                 var library = new Library
                 {
-                    Name = libraryName
+                    Name = libraryName,
+                    ImportDateTime = DateTime.Now,
                 };
 
                 context.Libraries.Add(library);
