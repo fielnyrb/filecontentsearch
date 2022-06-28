@@ -12,6 +12,17 @@ namespace File_Content_Search.Entities
         public DbSet<LibraryItem> LibraryItems { get; set; }
         public DbSet<Library> Libraries { get; set; }
 
+        private static bool _created = false;
+
+        public MyContext()
+        {
+            if(!_created)
+            {
+                _created = true;
+                Database.EnsureCreated();
+            }
+        }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlite("Data Source=LibraryItemsDB.db");

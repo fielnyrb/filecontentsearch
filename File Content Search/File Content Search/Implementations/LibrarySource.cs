@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace File_Content_Search.Implementations
 {
@@ -15,7 +16,15 @@ namespace File_Content_Search.Implementations
         {
             List<Library> libraries = new List<Library>();
             var context = new MyContext();
-            libraries = context.Libraries.Select(q => q).ToList();
+
+            try
+            {
+                libraries = context.Libraries.Select(q => q).ToList();
+            }
+            catch(Exception e)
+            {
+                MessageBox.Show(e.Message);
+            }
 
             List<LibraryInformation> librariesInformation = new List<LibraryInformation>();
             foreach (var library in libraries)
