@@ -11,7 +11,15 @@ namespace File_Content_Search.Implementations
     {
         public string minimize(string textToBeMinimized)
         {
-            return textToBeMinimized.Replace(",", "").Replace(".", "").Replace("!", "").Replace(" ", "").ToLower();
+            return textToBeMinimized.Replace(",", "").
+                Replace(".", "").
+                Replace("!", "").
+                Replace("?", "").
+                Replace(" ", "").
+                Replace("'", "").
+                Replace("\"","").
+                Replace("\n", "").
+                Replace("\r\n", "").ToLower();
         }
     }
 }

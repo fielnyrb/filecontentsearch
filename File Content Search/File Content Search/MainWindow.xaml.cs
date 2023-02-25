@@ -3,6 +3,7 @@ using File_Content_Search.Implementations;
 using File_Content_Search.Interfaces;
 using File_Content_Search.Structures;
 using Microsoft.Win32;
+using Microsoft.WindowsAPICodePack.Dialogs;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -69,6 +70,30 @@ namespace File_Content_Search
                 {
                     ILibraryImporter libraryImporter = new LibraryImporter(minimizer);
                     libraryImporter.ImportLibrary(fileName);
+                }
+            }
+
+            PopulateLibraryList();
+        }
+
+        private void button_Import_LibraryFolder_Click(object sender, RoutedEventArgs e)
+        {
+            CommonOpenFileDialog folderDialog = new CommonOpenFileDialog();
+
+            string folderName = "";
+            folderDialog.IsFolderPicker = true;
+
+            if (folderDialog.ShowDialog() == CommonFileDialogResult.Ok)
+            {
+                folderName = folderDialog.FileName;
+            }
+
+            if (folderName != "")
+            {
+                if (System.IO.Directory.Exists(folderName))
+                {
+                    ILibraryImporter libraryImporter = new LibraryImporterMultipleFiles(minimizer);
+                    libraryImporter.ImportLibrary(folderName);
                 }
             }
 
