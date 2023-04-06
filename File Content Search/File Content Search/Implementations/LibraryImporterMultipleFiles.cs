@@ -21,8 +21,7 @@ namespace File_Content_Search.Implementations
         {
             try
             {
-                string path = "D:\\export";
-                DirectoryInfo dir = new DirectoryInfo(path);
+                DirectoryInfo dir = new DirectoryInfo(libraryFolderPath);
                 FileInfo[] files1 = dir.GetFiles();
                 long newLibraryId = CreateLibraryDatabaseEntry(ExtractLibraryName(libraryFolderPath));
 

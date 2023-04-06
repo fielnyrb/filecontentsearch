@@ -80,6 +80,7 @@ namespace File_Content_Search
         {
             CommonOpenFileDialog folderDialog = new CommonOpenFileDialog();
 
+
             string folderName = "";
             folderDialog.IsFolderPicker = true;
 
@@ -112,6 +113,13 @@ namespace File_Content_Search
             }
 
             PopulateLibraryList();
+        }
+
+        private void buttonFindDuplicates_Click(object sender, RoutedEventArgs e)
+        {
+            CompareDuplicates compareDuplicates = new CompareDuplicates();
+            compareDuplicates.Show();
+            compareDuplicates.InitializeSearchForDuplicates();
         }
     }
 }

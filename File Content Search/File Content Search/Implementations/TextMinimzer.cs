@@ -17,7 +17,7 @@ namespace File_Content_Search.Implementations
                 Replace("?", "").
                 Replace(" ", "").
                 Replace("'", "").
-                Replace("\"","").
+                Replace("\"", "").
                 Replace("\n", "").
                 Replace("\r\n", "").ToLower();
         }

@@ -58,5 +58,6 @@
             </ListBox.ItemTemplate>
         </ListBox>
         <Button x:Name="buttonDeleteSelectedLibrary" Grid.Column="3" Content="Delete selected" HorizontalAlignment="Left" Margin="38,2,0,0" VerticalAlignment="Top" Click="buttonDeleteSelectedLibrary_Click"/>
+        <Button x:Name="buttonFindDuplicates" Content="Find duplicates" IsDefault="True" Margin="139,-40,0,0" VerticalAlignment="Top" Click="buttonFindDuplicates_Click" Grid.Column="3" HorizontalAlignment="Left" Width="85"/>
     </Grid>
 </Window>
