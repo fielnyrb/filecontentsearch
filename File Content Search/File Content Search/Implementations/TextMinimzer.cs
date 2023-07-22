@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace File_Content_Search.Implementations
 {
-    internal class TextMinimizer : ITextMinimizer
+    public class TextMinimizer : ITextMinimizer
     {
         public string minimize(string textToBeMinimized)
         {

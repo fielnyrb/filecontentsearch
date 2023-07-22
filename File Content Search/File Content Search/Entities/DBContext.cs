@@ -11,6 +11,7 @@ namespace File_Content_Search.Entities
     {
         public DbSet<LibraryItem> LibraryItems { get; set; }
         public DbSet<Library> Libraries { get; set; }
+        public DbSet<Setting> Settings { get; set; }
 
         private static bool _created = false;
 
@@ -32,6 +33,7 @@ namespace File_Content_Search.Entities
         {
             modelBuilder.Entity<LibraryItem>().ToTable("LibraryItems");
             modelBuilder.Entity<Library>().ToTable("Libraries");
+            modelBuilder.Entity<Setting>().ToTable("Settings");
         }
     }
 }

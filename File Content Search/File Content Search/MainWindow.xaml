@@ -5,13 +5,15 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:File_Content_Search"
         mc:Ignorable="d"
-        Title="Lívdin - File Content Search" Height="450" Width="800">
+        Title="Lívdin - File Content Search" Height="450" Width="844">
     <Grid Margin="0,65,0,0">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="91*"/>
-            <ColumnDefinition Width="413*"/>
-            <ColumnDefinition Width="28*"/>
-            <ColumnDefinition Width="268*"/>
+            <ColumnDefinition Width="96*"/>
+            <ColumnDefinition Width="436*"/>
+            <ColumnDefinition Width="30*"/>
+            <ColumnDefinition Width="259*"/>
+            <ColumnDefinition Width="19*"/>
+            <ColumnDefinition Width="4*"/>
         </Grid.ColumnDefinitions>
 
         <TextBox x:Name="textBox" HorizontalAlignment="Left" Margin="27,-40,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="538" Grid.ColumnSpan="4" />
@@ -45,8 +47,8 @@
                 </Style>
             </ListBox.Style>
         </ListBox>
-        <Button x:Name="button_Import_Library" Grid.Column="3" Content="Import Library" HorizontalAlignment="Left" Margin="128,2,0,0" VerticalAlignment="Top" Click="button_Import_LibraryFolder_Click"/>
-        <ListBox x:Name="listBoxLibraries" Grid.Column="3" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="38,27,10,10">
+        <Button x:Name="button_Import_Library" Grid.Column="3" Content="Import Libraries" HorizontalAlignment="Left" Margin="128,2,0,0" VerticalAlignment="Top" Click="button_Import_LibraryREST_Click"/>
+        <ListBox x:Name="listBoxLibraries" Grid.Column="3" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="38,27,6,10" Grid.ColumnSpan="2">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
@@ -59,5 +61,6 @@
         </ListBox>
         <Button x:Name="buttonDeleteSelectedLibrary" Grid.Column="3" Content="Delete selected" HorizontalAlignment="Left" Margin="38,2,0,0" VerticalAlignment="Top" Click="buttonDeleteSelectedLibrary_Click"/>
         <Button x:Name="buttonFindDuplicates" Content="Find duplicates" IsDefault="True" Margin="139,-40,0,0" VerticalAlignment="Top" Click="buttonFindDuplicates_Click" Grid.Column="3" HorizontalAlignment="Left" Width="85"/>
+        <Button x:Name="buttonSettings" Grid.Column="3" Content="Settings" HorizontalAlignment="Left" Margin="229,-40,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2" Click="buttonSettings_Click"/>
     </Grid>
 </Window>

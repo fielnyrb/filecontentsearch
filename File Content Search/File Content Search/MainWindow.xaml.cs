@@ -4,21 +4,9 @@ using File_Content_Search.Interfaces;
 using File_Content_Search.Structures;
 using Microsoft.Win32;
 using Microsoft.WindowsAPICodePack.Dialogs;
-using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace File_Content_Search
 {
@@ -29,18 +17,22 @@ namespace File_Content_Search
     {
         ILibraryDataSource libraryDataSource;
         ITextMinimizer minimizer;
+        string portNumber;
 
         public MainWindow()
         {
+            libraryDataSource = new LibrarySource();
+
             InitializeComponent();
             PopulateLibraryList();
 
             minimizer = new TextMinimizer();
+
+            portNumber = new PortNumberSetting().GetPortNumber();
         }
 
         private void PopulateLibraryList()
         {
-            libraryDataSource = new LibrarySource();
             listBoxLibraries.ItemsSource = libraryDataSource.GetLibrariesInformation();
         }
 
@@ -80,7 +72,6 @@ namespace File_Content_Search
         {
             CommonOpenFileDialog folderDialog = new CommonOpenFileDialog();
 
-
             string folderName = "";
             folderDialog.IsFolderPicker = true;
 
@@ -99,6 +90,21 @@ namespace File_Content_Search
             }
 
             PopulateLibraryList();
+        }
+
+        private async void button_Import_LibraryREST_Click(object sender, RoutedEventArgs e)
+        {
+            ILibraryImporterAsync libraryImporterREST = new LibraryImporterREST(portNumber, minimizer);
+
+            button_Import_Library.IsEnabled = false;
+            button_Import_Library.Content = "Importing Libraries...";
+
+            await libraryImporterREST.ImportLibrary("");
+
+            PopulateLibraryList();
+
+            button_Import_Library.Content = "Import Libraries";
+            button_Import_Library.IsEnabled = true;
         }
 
         private void buttonDeleteSelectedLibrary_Click(object sender, RoutedEventArgs e)
@@ -120,6 +126,12 @@ namespace File_Content_Search
             CompareDuplicates compareDuplicates = new CompareDuplicates();
             compareDuplicates.Show();
             compareDuplicates.InitializeSearchForDuplicates();
+        }
+
+        private void buttonSettings_Click(object sender, RoutedEventArgs e)
+        {
+            Settings settings = new Settings();
+            settings.Show();
         }
     }
 }

@@ -15,7 +15,7 @@ namespace File_Content_Search.Migrations
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "6.0.5");
+            modelBuilder.HasAnnotation("ProductVersion", "7.0.3");
 
             modelBuilder.Entity("File_Content_Search.Entities.Library", b =>
                 {
@@ -55,6 +55,25 @@ namespace File_Content_Search.Migrations
                     b.HasKey("LibraryItemId");
 
                     b.ToTable("LibraryItems", (string)null);
+                });
+
+            modelBuilder.Entity("File_Content_Search.Entities.Setting", b =>
+                {
+                    b.Property<Guid>("SettingId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Value")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("SettingId");
+
+                    b.ToTable("Settings", (string)null);
                 });
 #pragma warning restore 612, 618
         }

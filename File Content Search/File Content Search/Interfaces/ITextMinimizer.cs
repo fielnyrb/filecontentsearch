@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace File_Content_Search.Interfaces
 {
-    internal interface ITextMinimizer
+    public interface ITextMinimizer
     {
         public string minimize(string textToBeMinimized);
     }

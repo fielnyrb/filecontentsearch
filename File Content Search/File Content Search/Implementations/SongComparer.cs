@@ -20,7 +20,11 @@ namespace File_Content_Search.Implementations
                         where itemGroup.Count() > 1
                         select new NameItem { ItemTitle = itemGroup.Key };
 
-            return query.ToList();
+            List<NameItem> duplicates = query.ToList();
+
+            context.Dispose();
+
+            return duplicates;
         }
     }
 }

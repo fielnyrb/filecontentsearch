@@ -32,6 +32,8 @@ namespace File_Content_Search.Implementations
                 foundItems.Add(tempFoundItem);
             }
 
+            context.Dispose();
+
             return foundItems;
         }
     }
