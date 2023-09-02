@@ -1,10 +1,13 @@
 ﻿using File_Content_Search.Entities;
 using File_Content_Search.Interfaces;
+using File_Content_Search.Structures;
 using Newtonsoft.Json.Linq;
 using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Documents;
 
 namespace File_Content_Search.Implementations
 {
@@ -13,11 +16,13 @@ namespace File_Content_Search.Implementations
         private static readonly HttpClient client = new HttpClient();
         private string baseUrl;
         private ITextMinimizer minimizer;
+        private List<SelectableLibrary> libraries;
 
-        public LibraryImporterREST(string port, ITextMinimizer minimizer)
+        public LibraryImporterREST(string port, ITextMinimizer minimizer, List<SelectableLibrary> libraries)
         {
             this.baseUrl = $"http://localhost:{port}/v1";
             this.minimizer = minimizer;
+            this.libraries = libraries;
         }
         public async Task ImportLibrary(string libraryFilePath)
         {
@@ -33,12 +38,10 @@ namespace File_Content_Search.Implementations
 
         public async Task ImportLibraryContentAsync()
         {
-            JArray libraries = await GetLibrariesAsync();
-
-            foreach (JObject library in libraries)
+            foreach (SelectableLibrary library in libraries)
             {
-                string libraryId = (string)library["uuid"];
-                string name = (string)library["name"];
+                string libraryId = library.Uuid;
+                string name = library.Name;
                 JObject libraryContent = await GetLibraryAsync(libraryId);
 
                 long databaseId = CreateLibraryDatabaseEntry(name);
@@ -63,7 +66,7 @@ namespace File_Content_Search.Implementations
             }
         }
 
-        private async Task<JArray> GetLibrariesAsync()
+        public async Task<JArray> GetLibrariesAsync()
         {
             var response = await client.GetAsync($"{baseUrl}/libraries");
             response.EnsureSuccessStatusCode();

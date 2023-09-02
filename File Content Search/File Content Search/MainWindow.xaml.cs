@@ -92,19 +92,19 @@ namespace File_Content_Search
             PopulateLibraryList();
         }
 
-        private async void button_Import_LibraryREST_Click(object sender, RoutedEventArgs e)
+        private void button_Import_LibraryREST_Click(object sender, RoutedEventArgs e)
         {
-            ILibraryImporterAsync libraryImporterREST = new LibraryImporterREST(portNumber, minimizer);
+            Import import = new Import();
 
-            button_Import_Library.IsEnabled = false;
-            button_Import_Library.Content = "Importing Libraries...";
+            import.DataChanged += Import_DataChanged;
 
-            await libraryImporterREST.ImportLibrary("");
+            import.Show();
+        }
 
+        private void Import_DataChanged(object sender, System.EventArgs e)
+        {
+            listBoxLibraries.ItemsSource = null;
             PopulateLibraryList();
-
-            button_Import_Library.Content = "Import Libraries";
-            button_Import_Library.IsEnabled = true;
         }
 
         private void buttonDeleteSelectedLibrary_Click(object sender, RoutedEventArgs e)
