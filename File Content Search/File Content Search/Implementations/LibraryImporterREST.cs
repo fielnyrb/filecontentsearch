@@ -126,6 +126,7 @@ namespace File_Content_Search.Implementations
                 {
                     Title = itemTitle,
                     Content = content,
+                    OriginalContent = itemContent,
                     LibraryId = newLibraryId
                 };
 

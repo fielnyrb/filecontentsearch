@@ -11,6 +11,7 @@ namespace File_Content_Search.Entities
         public Guid LibraryItemId { get; set; }
         public string Title { get; set; }
         public string Content { get; set; }
+        public string OriginalContent { get; set; }
         public long LibraryId { get; set; }
     }
 }
