@@ -1,4 +1,4 @@
-﻿using File_Content_Search.Entities;
+﻿using File_Content_Search.Classes;
 using File_Content_Search.Implementations;
 using System;
 using System.Collections.Generic;
@@ -30,10 +30,40 @@ namespace File_Content_Search
         {
             //Create instance of SongComparer and call SearchForDuplicates
             SongComparer comparer = new SongComparer();
-            List<NameItem> items = comparer.SearchForDuplicates();
+            List<DuplicateGroupItem> items = comparer.SearchForDuplicates();
 
             //Bind data to ListBox
             MyListView.ItemsSource = items;
+        }
+
+        private void MyListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var listView = sender as ListView;
+            DuplicateGroupItem item = listView.SelectedItem as DuplicateGroupItem;
+
+            ComboBox1.ItemsSource = item.DuplicateItems;
+            ComboBox1.DisplayMemberPath = "LibraryName";
+            ComboBox1.SelectedValuePath = "ItemOriginalContent";
+
+            ComboBox2.ItemsSource = item.DuplicateItems;
+            ComboBox2.DisplayMemberPath = "LibraryName";
+            ComboBox2.SelectedValuePath = "ItemOriginalContent";
+        }
+
+        private void ComboBox1_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ComboBox comboBox = sender as ComboBox;
+            DuplicateItem item = comboBox.SelectedItem as DuplicateItem;
+
+            TextBox1.Text = item.ItemOriginalContent;
+        }
+
+        private void ComboBox2_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ComboBox comboBox = sender as ComboBox;
+            DuplicateItem item = comboBox.SelectedItem as DuplicateItem;
+
+            TextBox2.Text = item.ItemOriginalContent;
         }
     }
 }

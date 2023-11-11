@@ -11,5 +11,6 @@ namespace File_Content_Search.Interfaces
     internal interface ILibraryDataSource
     {
         List<LibraryInformation> GetLibrariesInformation();
+        LibraryInformation GetLibraryInformation(long libraryId);
     }
 }

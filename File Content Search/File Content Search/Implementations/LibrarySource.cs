@@ -34,5 +34,28 @@ namespace File_Content_Search.Implementations
 
             return librariesInformation;
         }
+
+        public LibraryInformation GetLibraryInformation(long libraryId)
+        {
+            LibraryInformation libraryInformation = new LibraryInformation("", 0, DateTime.MinValue);
+
+            try
+            {
+                Library? library = new MyContext().Libraries.Where(q => q.LibraryId == libraryId).FirstOrDefault();
+
+                if (library == null)
+                {
+                    throw new Exception("Library not found");
+                }
+
+                return new LibraryInformation(library.Name, library.LibraryId, library.ImportDateTime);
+            }
+            catch(Exception e)
+            {
+                MessageBox.Show(e.Message);
+            }
+
+            return libraryInformation;
+        }
     }
 }

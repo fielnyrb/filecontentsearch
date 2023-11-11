@@ -13,7 +13,7 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <ListView x:Name="MyListView" ItemsSource="{Binding YourList}" Grid.Column="0">
+        <ListView x:Name="MyListView" ItemsSource="{Binding YourList}" Grid.Column="0" SelectionChanged="MyListView_SelectionChanged">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Column1" DisplayMemberBinding="{Binding ItemTitle}" />
@@ -21,7 +21,14 @@
             </ListView.View>
         </ListView>
 
-        <TextBox Grid.Column="1" AcceptsReturn="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" IsReadOnly="True"/>
-        <TextBox Grid.Column="2" AcceptsReturn="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" IsReadOnly="True"/>
+        <StackPanel Grid.Column="1" Orientation="Vertical">
+            <ComboBox x:Name="ComboBox1" ItemsSource="{Binding YourDropdownList1}" SelectionChanged="ComboBox1_SelectionChanged"/>
+            <TextBox x:Name="TextBox1" AcceptsReturn="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" IsReadOnly="True"/>
+        </StackPanel>
+
+        <StackPanel Grid.Column="2" Orientation="Vertical">
+            <ComboBox x:Name="ComboBox2" ItemsSource="{Binding YourDropdownList2}" SelectionChanged="ComboBox2_SelectionChanged"/>
+            <TextBox x:Name="TextBox2" AcceptsReturn="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" IsReadOnly="True"/>
+        </StackPanel>
     </Grid>
 </Window>
