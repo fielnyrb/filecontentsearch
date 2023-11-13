@@ -23,12 +23,12 @@
 
         <StackPanel Grid.Column="1" Orientation="Vertical">
             <ComboBox x:Name="ComboBox1" ItemsSource="{Binding YourDropdownList1}" SelectionChanged="ComboBox1_SelectionChanged"/>
-            <TextBox x:Name="TextBox1" AcceptsReturn="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" IsReadOnly="True"/>
+            <TextBox x:Name="TextBox1" Height="500" AcceptsReturn="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" IsReadOnly="True"/>
         </StackPanel>
 
         <StackPanel Grid.Column="2" Orientation="Vertical">
             <ComboBox x:Name="ComboBox2" ItemsSource="{Binding YourDropdownList2}" SelectionChanged="ComboBox2_SelectionChanged"/>
-            <TextBox x:Name="TextBox2" AcceptsReturn="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" IsReadOnly="True"/>
+            <TextBox x:Name="TextBox2" Height="500" AcceptsReturn="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" IsReadOnly="True"/>
         </StackPanel>
     </Grid>
 </Window>

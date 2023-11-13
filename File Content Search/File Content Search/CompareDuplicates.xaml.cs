@@ -44,10 +44,19 @@ namespace File_Content_Search
             ComboBox1.ItemsSource = item.DuplicateItems;
             ComboBox1.DisplayMemberPath = "LibraryName";
             ComboBox1.SelectedValuePath = "ItemOriginalContent";
+            TextBox1.Text = "";
 
             ComboBox2.ItemsSource = item.DuplicateItems;
             ComboBox2.DisplayMemberPath = "LibraryName";
             ComboBox2.SelectedValuePath = "ItemOriginalContent";
+            TextBox2.Text = "";
+
+
+            if(item.DuplicateItems.Count >= 2)
+            {
+                ComboBox1.SelectedItem = item.DuplicateItems[0];
+                ComboBox2.SelectedItem = item.DuplicateItems[1];
+            }
         }
 
         private void ComboBox1_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -55,7 +64,10 @@ namespace File_Content_Search
             ComboBox comboBox = sender as ComboBox;
             DuplicateItem item = comboBox.SelectedItem as DuplicateItem;
 
-            TextBox1.Text = item.ItemOriginalContent;
+            if (item != null)
+            {
+                TextBox1.Text = item.ItemOriginalContent;
+            }
         }
 
         private void ComboBox2_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -63,7 +75,10 @@ namespace File_Content_Search
             ComboBox comboBox = sender as ComboBox;
             DuplicateItem item = comboBox.SelectedItem as DuplicateItem;
 
-            TextBox2.Text = item.ItemOriginalContent;
+            if (item != null)
+            {
+                TextBox2.Text = item.ItemOriginalContent;
+            }
         }
     }
 }
