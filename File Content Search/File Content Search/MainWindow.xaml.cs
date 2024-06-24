@@ -133,5 +133,11 @@ namespace File_Content_Search
             Settings settings = new Settings();
             settings.Show();
         }
+
+        private void button_Export_LibraryREST_Click(object sender, RoutedEventArgs e)
+        {
+            OpenLPExporter openLPExporter = new OpenLPExporter();
+            openLPExporter.ExportLibrary();
+        }
     }
 }

@@ -48,6 +48,7 @@
             </ListBox.Style>
         </ListBox>
         <Button x:Name="button_Import_Library" Grid.Column="3" Content="Import Libraries" HorizontalAlignment="Left" Margin="128,2,0,0" VerticalAlignment="Top" Click="button_Import_LibraryREST_Click"/>
+        <Button x:Name="button_Export_Library" Grid.Column="3" Content="Export Libraries" HorizontalAlignment="Left" Margin="229,2,0,0" VerticalAlignment="Top" Click="button_Export_LibraryREST_Click"/>
         <ListBox x:Name="listBoxLibraries" Grid.Column="3" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="38,27,6,10" Grid.ColumnSpan="2">
             <ListBox.ItemTemplate>
                 <DataTemplate>

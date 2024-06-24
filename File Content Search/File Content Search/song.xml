@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<song xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" version="1.0" createdIn="FCS" modifiedIn="FCS" modifiedDate="2024-06-24T20:30:35" xmlns="http://openlyrics.info/namespace/2009/song">
+  <properties>
+    <titles>
+      <title>Title</title>
+    </titles>
+    <authors>
+      <author>Anonymous</author>
+    </authors>
+  </properties>
+  <lyrics>
+    <verse name="v1">
+      <lines>Lyrics</lines>
+    </verse>
+  </lyrics>
+</song>

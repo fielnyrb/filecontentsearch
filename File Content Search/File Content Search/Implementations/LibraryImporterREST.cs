@@ -46,22 +46,28 @@ namespace File_Content_Search.Implementations
 
                 long databaseId = CreateLibraryDatabaseEntry(name);
 
-                foreach (JObject item in libraryContent["items"])
+                if(libraryContent["items"] is not null)
                 {
-                    string itemId = (string)item["uuid"];
-                    JObject presentation = await GetPresentationAsync(itemId);
-
-                    string presentationName = (string)presentation["presentation"]["id"]["name"];
-                    string presentationContent = presentationName;
-
-                    foreach (var group in presentation["presentation"]["groups"])
+                    foreach (JObject item in libraryContent["items"])
                     {
-                        foreach (var slide in group["slides"])
+                        if (item["uuid"] is not null)
                         {
-                            presentationContent += (string)slide["text"];
+                            string itemId = (string)item["uuid"];
+                            JObject presentation = await GetPresentationAsync(itemId);
+
+                            string presentationName = (string)presentation["presentation"]["id"]["name"];
+                            string presentationContent = presentationName;
+
+                            foreach (var group in presentation["presentation"]["groups"])
+                            {
+                                foreach (var slide in group["slides"])
+                                {
+                                    presentationContent += (string)slide["text"];
+                                }
+                            }
+                            PutItemIntoLibrary(databaseId, presentationName, presentationContent);
                         }
                     }
-                    PutItemIntoLibrary(databaseId, presentationName, presentationContent);
                 }
             }
         }
