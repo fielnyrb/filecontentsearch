@@ -29,10 +29,11 @@ namespace File_Content_Search.Implementations
             song.Lyrics = new Lyrics();
             song.Lyrics.Verse = new Verse();
             song.Lyrics.Verse.Name = "v1";
-            song.Lyrics.Verse.Lines = "Lyrics";
+            song.Lyrics.Verse.Lines = "Lyri<br/>cs";
 
             string filePath = "song.xml";
-            SerializeSongToXml(song, filePath);
+            string xml = ReplaceEscapedBrTags(SerializeSongToXmlString(song));
+            WriteXmlStringToFile(xml, filePath);
         }
 
         public void SerializeSongToXml(Song song, string filePath)
@@ -44,5 +45,24 @@ namespace File_Content_Search.Implementations
             }
         }
 
+        public string SerializeSongToXmlString(Song song)
+        {
+            XmlSerializer serializer = new XmlSerializer(typeof(Song));
+            using (StringWriter writer = new StringWriter())
+            {
+                serializer.Serialize(writer, song);
+                return writer.ToString();
+            }
+        }
+
+        public void WriteXmlStringToFile(string xmlString, string filePath)
+        {
+            File.WriteAllText(filePath, xmlString);
+        }
+
+        public static string ReplaceEscapedBrTags(string input)
+        {
+            return input.Replace("&lt;br/&gt;", "<br/>");
+        }
     }
 }
