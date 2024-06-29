@@ -32,6 +32,7 @@ namespace File_Content_Search.Entities
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<LibraryItem>().ToTable("LibraryItems");
+            modelBuilder.Entity<LibraryItemLine>().ToTable("LibraryItemLines");
             modelBuilder.Entity<Library>().ToTable("Libraries");
             modelBuilder.Entity<Setting>().ToTable("Settings");
         }
