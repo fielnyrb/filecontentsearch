@@ -65,12 +65,15 @@ namespace File_Content_Search.Implementations
                                     presentationContent += (string)slide["text"];
                                 }
                             }
-                            PutItemIntoLibrary(databaseId, presentationName, presentationContent);
+                            Guid itemGuid = PutItemIntoLibrary(databaseId, presentationName, presentationContent);
+                            PutLinesIntoLibrary(itemGuid, presentation["presentation"]["groups"]);
                         }
                     }
                 }
             }
         }
+
+        
 
         public async Task<JArray> GetLibrariesAsync()
         {
@@ -117,11 +120,13 @@ namespace File_Content_Search.Implementations
             return newLibraryId;
         }
 
-        private void PutItemIntoLibrary(long newLibraryId, string itemTitle, string itemContent)
+        private Guid PutItemIntoLibrary(long newLibraryId, string itemTitle, string itemContent)
         {
+            Guid newLibraryItemId = Guid.Empty;
+
             if (itemContent == "" || itemTitle == "")
             {
-                return;
+                return newLibraryItemId;
             }
 
             string content = minimizer.minimize(itemContent);
@@ -139,8 +144,49 @@ namespace File_Content_Search.Implementations
                 context.LibraryItems.Add(libraryItem);
 
                 context.SaveChanges();
+
+                newLibraryItemId = libraryItem.LibraryItemId;
             }
 
+            return newLibraryItemId;
+        }
+
+        private void PutLinesIntoLibrary(Guid itemGuid, JToken? groups)
+        {
+            if (groups is null)
+            {
+                return;
+            }
+            if (Guid.Empty.Equals(itemGuid))
+            {
+                return;
+            }
+
+            using (var context = new MyContext())
+            {
+                foreach (var group in groups)
+                {
+                    foreach (var slide in group["slides"])
+                    {
+                        string unSplitText = (string)slide["text"];
+                        string[] lines = unSplitText.Split(new string[] { "\r\n", "\n" }, StringSplitOptions.None);
+
+                        foreach (string line in lines)
+                        {
+                            LibraryItemLine itemLine = new LibraryItemLine
+                            {
+                                Name = (string)group["name"],
+                                Text = line,
+                                LibraryItemId = itemGuid
+                            };
+
+                            context.LibraryItemLines.Add(itemLine);
+                        }
+                    }
+                }
+
+                context.SaveChanges();
+            }
         }
     }
 }

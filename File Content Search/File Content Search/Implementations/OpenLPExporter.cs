@@ -13,6 +13,16 @@ namespace File_Content_Search.Implementations
         public void ExportLibrary()
         {
             //Export library item to OpenLP format
+            Song song = BuildSong();
+
+            string filePath = "song.xml";
+            string xml = ReplaceEscapedBrTags(SerializeSongToXmlString(song));
+            //WriteXmlStringToFile(xml, filePath);
+        }
+
+        private Song BuildSong()
+        {
+            //Build song object
             Song song = new Song();
             song.Version = "1.0";
             song.CreatedIn = "FCS";
@@ -31,9 +41,7 @@ namespace File_Content_Search.Implementations
             song.Lyrics.Verse.Name = "v1";
             song.Lyrics.Verse.Lines = "Lyri<br/>cs";
 
-            string filePath = "song.xml";
-            string xml = ReplaceEscapedBrTags(SerializeSongToXmlString(song));
-            WriteXmlStringToFile(xml, filePath);
+            return song;
         }
 
         public void SerializeSongToXml(Song song, string filePath)

@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 
 namespace File_Content_Search.Entities
 {
-    internal class LibraryItemLine
+    public class LibraryItemLine
     {
         public long LibraryItemLineId { get; set; }
+        public string Name { get; set; }
         public string Text { get; set; }
-        public long LibraryItemId { get; set; }
+        public Guid LibraryItemId { get; set; }
     }
 }

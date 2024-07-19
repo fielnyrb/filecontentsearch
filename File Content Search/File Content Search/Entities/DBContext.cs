@@ -9,6 +9,7 @@ namespace File_Content_Search.Entities
 {
     public class MyContext : DbContext
     {
+        public DbSet<LibraryItemLine> LibraryItemLines { get; set; }
         public DbSet<LibraryItem> LibraryItems { get; set; }
         public DbSet<Library> Libraries { get; set; }
         public DbSet<Setting> Settings { get; set; }
