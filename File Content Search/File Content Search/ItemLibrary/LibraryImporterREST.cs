@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Documents;
 
-namespace File_Content_Search.Implementations
+namespace File_Content_Search.ItemLibrary
 {
-    public class LibraryImporterREST : Interfaces.ILibraryImporterAsync
+    public class LibraryImporterREST : ILibraryImporterAsync
     {
         private static readonly HttpClient client = new HttpClient();
         private string baseUrl;
@@ -20,7 +20,7 @@ namespace File_Content_Search.Implementations
 
         public LibraryImporterREST(string port, ITextMinimizer minimizer, List<SelectableLibrary> libraries)
         {
-            this.baseUrl = $"http://localhost:{port}/v1";
+            baseUrl = $"http://localhost:{port}/v1";
             this.minimizer = minimizer;
             this.libraries = libraries;
         }
@@ -46,7 +46,7 @@ namespace File_Content_Search.Implementations
 
                 long databaseId = CreateLibraryDatabaseEntry(name);
 
-                if(libraryContent["items"] is not null)
+                if (libraryContent["items"] is not null)
                 {
                     foreach (JObject item in libraryContent["items"])
                     {
@@ -73,7 +73,7 @@ namespace File_Content_Search.Implementations
             }
         }
 
-        
+
 
         public async Task<JArray> GetLibrariesAsync()
         {
@@ -162,11 +162,11 @@ namespace File_Content_Search.Implementations
                 return;
             }
 
-            using (var context = new MyContext())
+            using (MyContext context = new MyContext())
             {
-                foreach (var group in groups)
+                foreach (JToken group in groups)
                 {
-                    foreach (var slide in group["slides"])
+                    foreach (JToken slide in group["slides"])
                     {
                         string unSplitText = (string)slide["text"];
                         string[] lines = unSplitText.Split(new string[] { "\r\n", "\n" }, StringSplitOptions.None);

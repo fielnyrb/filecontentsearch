@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Xml.Serialization;
 using System.IO;
 
-namespace File_Content_Search.Implementations
+namespace File_Content_Search.ItemLibrary
 {
     internal class OpenLPExporter
     {

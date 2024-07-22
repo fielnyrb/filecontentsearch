@@ -1,6 +1,7 @@
 ﻿using File_Content_Search.Entities;
 using File_Content_Search.Implementations;
 using File_Content_Search.Interfaces;
+using File_Content_Search.ItemLibrary;
 using File_Content_Search.Structures;
 using Microsoft.Win32;
 using Microsoft.WindowsAPICodePack.Dialogs;
@@ -43,53 +44,6 @@ namespace File_Content_Search
             List<FoundItem> foundItems = searcher.Search(searchString: minimizer.minimize(textBox.Text), directory: "");
 
             listBox.ItemsSource = foundItems;
-        }
-
-        private void button_Import_Library_Click(object sender, RoutedEventArgs e)
-        {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-
-            string fileName = "";
-
-            if (openFileDialog.ShowDialog() == true)
-            {
-                fileName = openFileDialog.FileName;
-            }
-
-            if (fileName != "")
-            {
-                if (File.Exists(fileName))
-                {
-                    ILibraryImporter libraryImporter = new LibraryImporter(minimizer);
-                    libraryImporter.ImportLibrary(fileName);
-                }
-            }
-
-            PopulateLibraryList();
-        }
-
-        private void button_Import_LibraryFolder_Click(object sender, RoutedEventArgs e)
-        {
-            CommonOpenFileDialog folderDialog = new CommonOpenFileDialog();
-
-            string folderName = "";
-            folderDialog.IsFolderPicker = true;
-
-            if (folderDialog.ShowDialog() == CommonFileDialogResult.Ok)
-            {
-                folderName = folderDialog.FileName;
-            }
-
-            if (folderName != "")
-            {
-                if (System.IO.Directory.Exists(folderName))
-                {
-                    ILibraryImporter libraryImporter = new LibraryImporterMultipleFiles(minimizer);
-                    libraryImporter.ImportLibrary(folderName);
-                }
-            }
-
-            PopulateLibraryList();
         }
 
         private void button_Import_LibraryREST_Click(object sender, RoutedEventArgs e)

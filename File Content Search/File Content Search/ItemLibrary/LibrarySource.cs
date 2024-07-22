@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace File_Content_Search.Implementations
+namespace File_Content_Search.ItemLibrary
 {
     internal class LibrarySource : ILibraryDataSource
     {
@@ -21,7 +21,7 @@ namespace File_Content_Search.Implementations
             {
                 libraries = context.Libraries.Select(q => q).ToList();
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 MessageBox.Show(e.Message);
             }
@@ -50,7 +50,7 @@ namespace File_Content_Search.Implementations
 
                 return new LibraryInformation(library.Name, library.LibraryId, library.ImportDateTime);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 MessageBox.Show(e.Message);
             }

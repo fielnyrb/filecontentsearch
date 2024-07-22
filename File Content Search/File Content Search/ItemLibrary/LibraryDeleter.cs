@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace File_Content_Search.Implementations
+namespace File_Content_Search.ItemLibrary
 {
     internal class LibraryDeleter : ILibraryDeleter
     {
