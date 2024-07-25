@@ -2,6 +2,7 @@
 using File_Content_Search.Implementations;
 using File_Content_Search.Interfaces;
 using File_Content_Search.ItemLibrary;
+using File_Content_Search.ItemLibrary.Interfaces;
 using File_Content_Search.Structures;
 using Microsoft.Win32;
 using Microsoft.WindowsAPICodePack.Dialogs;
@@ -16,13 +17,13 @@ namespace File_Content_Search
     /// </summary>
     public partial class MainWindow : Window
     {
-        ILibraryDataSource libraryDataSource;
+        IStoredLibraries libraryDataSource;
         ITextMinimizer minimizer;
         string portNumber;
 
         public MainWindow()
         {
-            libraryDataSource = new LibrarySource();
+            libraryDataSource = new StoredLibraries();
 
             InitializeComponent();
             PopulateLibraryList();

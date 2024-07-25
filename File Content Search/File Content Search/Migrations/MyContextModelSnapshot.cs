@@ -61,6 +61,28 @@ namespace File_Content_Search.Migrations
                     b.ToTable("LibraryItems", (string)null);
                 });
 
+            modelBuilder.Entity("File_Content_Search.Entities.LibraryItemLine", b =>
+                {
+                    b.Property<long>("LibraryItemLineId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<Guid>("LibraryItemId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Text")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("LibraryItemLineId");
+
+                    b.ToTable("LibraryItemLines", (string)null);
+                });
+
             modelBuilder.Entity("File_Content_Search.Entities.Setting", b =>
                 {
                     b.Property<Guid>("SettingId")

@@ -1,5 +1,6 @@
 ﻿using File_Content_Search.Entities;
 using File_Content_Search.Interfaces;
+using File_Content_Search.ItemLibrary.Interfaces;
 using File_Content_Search.Structures;
 using Newtonsoft.Json.Linq;
 using System;
@@ -13,22 +14,20 @@ namespace File_Content_Search.ItemLibrary
 {
     public class LibraryImporterREST : ILibraryImporterAsync
     {
-        private static readonly HttpClient client = new HttpClient();
-        private string baseUrl;
         private ITextMinimizer minimizer;
-        private List<SelectableLibrary> libraries;
+        private ProPresenterAPI proPresenterAPI;
 
-        public LibraryImporterREST(string port, ITextMinimizer minimizer, List<SelectableLibrary> libraries)
+        public LibraryImporterREST(string port, ITextMinimizer minimizer)
         {
-            baseUrl = $"http://localhost:{port}/v1";
             this.minimizer = minimizer;
-            this.libraries = libraries;
+            this.proPresenterAPI = new ProPresenterAPI(port);
         }
-        public async Task ImportLibrary(string libraryFilePath)
+        public async Task ImportLibrary(SelectableLibrary library)
         {
+            long dbId = CreateLibrary(library.Name);
             try
             {
-                await ImportLibraryContentAsync();
+                await ImportLibraryContentAsync(library, dbId);
             }
             catch (Exception exception)
             {
@@ -36,88 +35,41 @@ namespace File_Content_Search.ItemLibrary
             }
         }
 
-        public async Task ImportLibraryContentAsync()
+        private long CreateLibrary(string libraryName)
         {
-            foreach (SelectableLibrary library in libraries)
+            LibraryCreator libraryCreator = new LibraryCreator();
+            return libraryCreator.CreateLibraryDatabaseEntry(libraryName);
+        }
+
+        public async Task ImportLibraryContentAsync(SelectableLibrary library, long databaseId)
+        {
+            string libraryId = library.Uuid;
+
+            JObject libraryContent = await this.proPresenterAPI.GetLibraryAsync(libraryId);
+            if (libraryContent["items"] is not null)
             {
-                string libraryId = library.Uuid;
-                string name = library.Name;
-                JObject libraryContent = await GetLibraryAsync(libraryId);
-
-                long databaseId = CreateLibraryDatabaseEntry(name);
-
-                if (libraryContent["items"] is not null)
+                foreach (JObject item in libraryContent["items"])
                 {
-                    foreach (JObject item in libraryContent["items"])
+                    if (item["uuid"] is not null)
                     {
-                        if (item["uuid"] is not null)
+                        string itemId = (string)item["uuid"];
+                        JObject presentation = await this.proPresenterAPI.GetPresentationAsync(itemId);
+
+                        string presentationName = (string)presentation["presentation"]["id"]["name"];
+                        string presentationContent = presentationName;
+
+                        foreach (var group in presentation["presentation"]["groups"])
                         {
-                            string itemId = (string)item["uuid"];
-                            JObject presentation = await GetPresentationAsync(itemId);
-
-                            string presentationName = (string)presentation["presentation"]["id"]["name"];
-                            string presentationContent = presentationName;
-
-                            foreach (var group in presentation["presentation"]["groups"])
+                            foreach (var slide in group["slides"])
                             {
-                                foreach (var slide in group["slides"])
-                                {
-                                    presentationContent += (string)slide["text"];
-                                }
+                                presentationContent += (string)slide["text"];
                             }
-                            Guid itemGuid = PutItemIntoLibrary(databaseId, presentationName, presentationContent);
-                            PutLinesIntoLibrary(itemGuid, presentation["presentation"]["groups"]);
                         }
+                        Guid itemGuid = PutItemIntoLibrary(databaseId, presentationName, presentationContent);
+                        PutLinesIntoLibrary(itemGuid, presentation["presentation"]["groups"]);
                     }
                 }
             }
-        }
-
-
-
-        public async Task<JArray> GetLibrariesAsync()
-        {
-            var response = await client.GetAsync($"{baseUrl}/libraries");
-            response.EnsureSuccessStatusCode();
-            var responseBody = await response.Content.ReadAsStringAsync();
-
-            return JArray.Parse(responseBody);
-        }
-
-        private async Task<JObject> GetLibraryAsync(string libraryId)
-        {
-            var response = await client.GetAsync($"{baseUrl}/library/{libraryId}");
-            response.EnsureSuccessStatusCode();
-            var responseBody = await response.Content.ReadAsStringAsync();
-            return JObject.Parse(responseBody);
-        }
-
-        private async Task<JObject> GetPresentationAsync(string presentationId)
-        {
-            var response = await client.GetAsync($"{baseUrl}/presentation/{presentationId}");
-            response.EnsureSuccessStatusCode();
-            var responseBody = await response.Content.ReadAsStringAsync();
-            return JObject.Parse(responseBody);
-        }
-
-        private long CreateLibraryDatabaseEntry(string libraryName)
-        {
-            long newLibraryId;
-            using (var context = new MyContext())
-            {
-                var library = new Library
-                {
-                    Name = libraryName,
-                    ImportDateTime = DateTime.Now,
-                };
-
-                context.Libraries.Add(library);
-                context.SaveChanges();
-
-                newLibraryId = library.LibraryId;
-            }
-
-            return newLibraryId;
         }
 
         private Guid PutItemIntoLibrary(long newLibraryId, string itemTitle, string itemContent)

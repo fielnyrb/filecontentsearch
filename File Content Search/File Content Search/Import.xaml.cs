@@ -39,7 +39,7 @@ namespace File_Content_Search
             Items = new ObservableCollection<SelectableLibrary>();
 
             InitializeComponent();
-         
+
             Loaded += OnLoaded;
 
         }
@@ -52,8 +52,8 @@ namespace File_Content_Search
         {
             ItemsListBox.ItemsSource = Items;
 
-            LibraryImporterREST libraryImporterREST = new LibraryImporterREST(portNumber, minimizer, Items.ToList());
-            JArray libraries = await libraryImporterREST.GetLibrariesAsync();
+            ProPresenterAPI proPresenterAPI = new ProPresenterAPI(portNumber);
+            JArray libraries = await proPresenterAPI.GetLibrariesAsync();
 
             foreach (JObject library in libraries)
             {
@@ -70,17 +70,15 @@ namespace File_Content_Search
             AddItemButton.IsEnabled = false;
             ItemsListBox.IsEnabled = false;
 
-            List<SelectableLibrary> selectedItems = new List<SelectableLibrary>();
             foreach (SelectableLibrary item in Items)
             {
                 if (item.IsChecked == true)
                 {
-                    selectedItems.Add(item);
+                    LibraryImporterREST libraryImporterREST = new LibraryImporterREST(portNumber, minimizer);
+                    await libraryImporterREST.ImportLibrary(item);
                 }
             }
 
-            LibraryImporterREST libraryImporterREST = new LibraryImporterREST(portNumber, minimizer, selectedItems);
-            await libraryImporterREST.ImportLibraryContentAsync();
 
             AddItemButton.IsEnabled = true;
             ItemsListBox.IsEnabled = true;

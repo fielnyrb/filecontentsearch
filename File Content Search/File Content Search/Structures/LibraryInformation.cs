@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace File_Content_Search.Structures
 {
-    internal class LibraryInformation
+    public class LibraryInformation
     {
         public long LibraryInformationId { get; set; }
         public string Name { get; set; }

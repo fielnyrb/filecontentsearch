@@ -1,5 +1,5 @@
 ﻿using File_Content_Search.Entities;
-using File_Content_Search.Interfaces;
+using File_Content_Search.ItemLibrary.Interfaces;
 using File_Content_Search.Structures;
 using System;
 using System.Collections.Generic;
@@ -10,7 +10,7 @@ using System.Windows;
 
 namespace File_Content_Search.ItemLibrary
 {
-    internal class LibrarySource : ILibraryDataSource
+    public class StoredLibraries : IStoredLibraries
     {
         public List<LibraryInformation> GetLibrariesInformation()
         {
