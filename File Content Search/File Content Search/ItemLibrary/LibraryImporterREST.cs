@@ -127,7 +127,7 @@ namespace File_Content_Search.ItemLibrary
                         {
                             LibraryItemLine itemLine = new LibraryItemLine
                             {
-                                Name = (string)group["name"],
+                                Name = CreateNewItemName((string)group["name"], groups),
                                 Text = line,
                                 LibraryItemId = itemGuid
                             };
@@ -139,6 +139,32 @@ namespace File_Content_Search.ItemLibrary
 
                 context.SaveChanges();
             }
+        }
+
+        private string CreateNewItemName(string oldItemName, JToken groups)
+        {
+            string newItemName = oldItemName;
+            if (oldItemName == "Group")
+            {
+                // Find largest "Verse" number in groups
+                int largestVerseNumber = 1;
+                foreach (JToken group in groups)
+                {
+                    string groupName = (string)group["name"];
+                    if (groupName.Contains("Verse"))
+                    {
+                        string verseNumber = groupName.Substring(5);
+                        int verseNumberInt = int.Parse(verseNumber);
+                        if (verseNumberInt > largestVerseNumber)
+                        {
+                            largestVerseNumber = verseNumberInt;
+                        }
+                    }
+                }
+                newItemName = "Verse " + largestVerseNumber;
+            }
+
+            return newItemName;
         }
     }
 }
