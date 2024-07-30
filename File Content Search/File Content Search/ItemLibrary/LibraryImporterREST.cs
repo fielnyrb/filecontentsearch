@@ -118,6 +118,7 @@ namespace File_Content_Search.ItemLibrary
             {
                 foreach (JToken group in groups)
                 {
+                    int largestVerseNumber = GetLargestVerseNumberInGroups(groups);
                     foreach (JToken slide in group["slides"])
                     {
                         string unSplitText = (string)slide["text"];
@@ -127,12 +128,16 @@ namespace File_Content_Search.ItemLibrary
                         {
                             LibraryItemLine itemLine = new LibraryItemLine
                             {
-                                Name = CreateNewItemName((string)group["name"], groups),
+                                Name = CreateNewItemName((string)group["name"], largestVerseNumber),
                                 Text = line,
                                 LibraryItemId = itemGuid
                             };
 
                             context.LibraryItemLines.Add(itemLine);
+                        }
+                        if ((string)group["name"] == "Group")
+                        {
+                            largestVerseNumber++;
                         }
                     }
                 }
@@ -141,30 +146,40 @@ namespace File_Content_Search.ItemLibrary
             }
         }
 
-        private string CreateNewItemName(string oldItemName, JToken groups)
+        private string CreateNewItemName(string groupName, int largestVerseNumber)
         {
-            string newItemName = oldItemName;
-            if (oldItemName == "Group")
+            if (groupName == "Group")
             {
-                // Find largest "Verse" number in groups
-                int largestVerseNumber = 1;
-                foreach (JToken group in groups)
+                return "Verse " + (largestVerseNumber + 1);
+            }
+            return groupName;
+        }
+
+        private int GetLargestVerseNumberInGroups(JToken groups)
+        {
+            int largestVerseNumber = 0;
+
+            foreach (JToken group in groups)
+            {
+                string groupName = (string)group["name"];
+
+                if(groupName == "Verse")
                 {
-                    string groupName = (string)group["name"];
-                    if (groupName.Contains("Verse"))
+                    continue;
+                }
+
+                if (groupName.Contains("Verse"))
+                {
+                    string verseNumber = groupName.Substring(5);
+                    int verseNumberInt = int.Parse(verseNumber);
+                    if (verseNumberInt > largestVerseNumber)
                     {
-                        string verseNumber = groupName.Substring(5);
-                        int verseNumberInt = int.Parse(verseNumber);
-                        if (verseNumberInt > largestVerseNumber)
-                        {
-                            largestVerseNumber = verseNumberInt;
-                        }
+                        largestVerseNumber = verseNumberInt;
                     }
                 }
-                newItemName = "Verse " + largestVerseNumber;
             }
 
-            return newItemName;
+            return largestVerseNumber;
         }
     }
 }
