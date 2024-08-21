@@ -5,22 +5,43 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 using System.IO;
+using File_Content_Search.Entities;
+using File_Content_Search.Migrations;
 
 namespace File_Content_Search.ItemLibrary
 {
     internal class OpenLPExporter
     {
-        public void ExportLibrary()
+        MyContext _dbContext;
+
+        public void ExportLibrary(MyContext dbContext)
         {
+            _dbContext = dbContext;
+
             //Export library item to OpenLP format
             Song song = BuildSong();
 
             string filePath = "song.xml";
             string xml = ReplaceEscapedBrTags(SerializeSongToXmlString(song));
+
+            ExportAllLibraryItemsToOpenLP();
+
             //WriteXmlStringToFile(xml, filePath);
         }
 
-        private Song BuildSong()
+        private void ExportAllLibraryItemsToOpenLP()
+        {
+            //Get all library items from database
+            var libaryItemLines = from LibraryItemLine libraryItemLine in _dbContext.LibraryItemLines
+                                  select libraryItemLine;
+
+            foreach (var item in libaryItemLines)
+            {
+                var test = item;
+            }
+        }
+
+            private Song BuildSong()
         {
             //Build song object
             Song song = new Song();
