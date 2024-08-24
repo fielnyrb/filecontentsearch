@@ -7,6 +7,7 @@ using System.Xml.Serialization;
 using System.IO;
 using File_Content_Search.Entities;
 using File_Content_Search.Migrations;
+using File_Content_Search.Classes.OpenLP;
 
 namespace File_Content_Search.ItemLibrary
 {
@@ -18,12 +19,6 @@ namespace File_Content_Search.ItemLibrary
         {
             _dbContext = dbContext;
 
-            //Export library item to OpenLP format
-            Song song = BuildSong();
-
-            string filePath = "song.xml";
-            string xml = ReplaceEscapedBrTags(SerializeSongToXmlString(song));
-
             ExportAllLibraryItemsToOpenLP();
 
             //WriteXmlStringToFile(xml, filePath);
@@ -32,16 +27,61 @@ namespace File_Content_Search.ItemLibrary
         private void ExportAllLibraryItemsToOpenLP()
         {
             //Get all library items from database
-            var libaryItemLines = from LibraryItemLine libraryItemLine in _dbContext.LibraryItemLines
-                                  select libraryItemLine;
+            var libraryItemLines = (from LibraryItemLine libraryItemLine in _dbContext.LibraryItemLines
+                                    join LibraryItem libraryItem in _dbContext.LibraryItems on libraryItemLine.LibraryItemId equals libraryItem.LibraryItemId
+                                    select new DTOSongLine
+                                    {
+                                        LibraryItemId = libraryItem.LibraryItemId,
+                                        Title = libraryItem.Title,
+                                        Name = libraryItemLine.Name,
+                                        Text = libraryItemLine.Text
+                                    });
 
-            foreach (var item in libaryItemLines)
+            DTOSongLine previousDTOSong = libraryItemLines.First<DTOSongLine>();
+
+            String songTitle = "";
+            String verseLines = "";
+            List<Verse> openLPVerses = new List<Verse>();
+
+            foreach (DTOSongLine libraryItemLine in libraryItemLines)
             {
-                var test = item;
+                List<DTOSongLine> songLines = new List<DTOSongLine>();
+
+                if (previousDTOSong.Name != libraryItemLine.Name)
+                {
+                    openLPVerses.Add(new Verse { Name = libraryItemLine.Name, Lines = verseLines });
+                    verseLines = libraryItemLine.Text;
+                }
+                else
+                {
+                    verseLines += "<br/>" + libraryItemLine.Text;
+                }
+
+                if (previousDTOSong.LibraryItemId != libraryItemLine.LibraryItemId)
+                {
+                    songTitle = libraryItemLine.Title;
+
+                    
+
+                    //Export library item to OpenLP format
+                    //Song openLPSong = BuildSong("", libraryItemLine);
+                    //SerializeSongToXml(openLPSong, "song.xml");
+                }
+                else
+                {
+                    //Add verse to song
+                    //song.Lyrics.Verse.Lines += libraryItemLine.Text;
+                }
+
+                previousDTOSong = libraryItemLine;
             }
+
+
+            string filePath = "song.xml";
+            //string xml = ReplaceEscapedBrTags(SerializeSongToXmlString(song));
         }
 
-            private Song BuildSong()
+        private Song BuildSong(String songTitle, DTOSongLine songLine)
         {
             //Build song object
             Song song = new Song();
@@ -52,15 +92,15 @@ namespace File_Content_Search.ItemLibrary
 
             song.Properties = new Properties();
             song.Properties.Titles = new Titles();
-            song.Properties.Titles.Title = "Title";
+            //song.Properties.Titles.Title = libraryItemLine.Name;
 
             song.Properties.Authors = new Authors();
             song.Properties.Authors.Author = "Anonymous";
 
             song.Lyrics = new Lyrics();
-            song.Lyrics.Verse = new Verse();
-            song.Lyrics.Verse.Name = "v1";
-            song.Lyrics.Verse.Lines = "Lyri<br/>cs";
+            //song.Lyrics.Verse = new Verse();
+            //song.Lyrics.Verse.Name = "v1";
+            //song.Lyrics.Verse.Lines = libraryItemLine.Text;
 
             return song;
         }

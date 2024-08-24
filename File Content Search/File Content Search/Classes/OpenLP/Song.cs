@@ -48,7 +48,7 @@ public class Authors
 public class Lyrics
 {
     [XmlElement(ElementName = "verse")]
-    public Verse Verse { get; set; }
+    public List<Verse> Verse { get; set; }
 }
 
 public class Verse
