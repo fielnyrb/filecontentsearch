@@ -29,13 +29,14 @@ namespace File_Content_Search.ItemLibrary
             //Get all library items from database
             var libraryItemLines = (from LibraryItemLine libraryItemLine in _dbContext.LibraryItemLines
                                     join LibraryItem libraryItem in _dbContext.LibraryItems on libraryItemLine.LibraryItemId equals libraryItem.LibraryItemId
+                                    orderby libraryItemLine.LibraryItemLineId
                                     select new DTOSongLine
                                     {
                                         LibraryItemId = libraryItem.LibraryItemId,
                                         Title = libraryItem.Title,
                                         Name = libraryItemLine.Name,
                                         Text = libraryItemLine.Text
-                                    });
+                                    }).ToList();
 
             DTOSongLine previousDTOSong = libraryItemLines.First<DTOSongLine>();
 
@@ -43,25 +44,32 @@ namespace File_Content_Search.ItemLibrary
             String verseLines = "";
             List<Verse> openLPVerses = new List<Verse>();
 
-            foreach (DTOSongLine libraryItemLine in libraryItemLines)
+            for (int i = 0; i < libraryItemLines.Count(); i++)
             {
                 List<DTOSongLine> songLines = new List<DTOSongLine>();
 
-                if (previousDTOSong.Name != libraryItemLine.Name)
+                if (previousDTOSong.Name != libraryItemLines[i].Name)
                 {
-                    openLPVerses.Add(new Verse { Name = libraryItemLine.Name, Lines = verseLines });
-                    verseLines = libraryItemLine.Text;
+                    openLPVerses.Add(new Verse { Name = previousDTOSong.Name, Lines = verseLines });
+                    verseLines = libraryItemLines[i].Text;
                 }
                 else
                 {
-                    verseLines += "<br/>" + libraryItemLine.Text;
+                    if (verseLines == "")
+                    {
+                        verseLines = libraryItemLines[i].Text;
+                    }
+                    else
+                    {
+                        verseLines += "<br/>" + libraryItemLines[i].Text;
+                    }
                 }
 
-                if (previousDTOSong.LibraryItemId != libraryItemLine.LibraryItemId)
+                if (previousDTOSong.LibraryItemId != libraryItemLines[i].LibraryItemId)
                 {
-                    songTitle = libraryItemLine.Title;
+                    songTitle = libraryItemLines[i].Title;
 
-                    
+
 
                     //Export library item to OpenLP format
                     //Song openLPSong = BuildSong("", libraryItemLine);
@@ -73,7 +81,13 @@ namespace File_Content_Search.ItemLibrary
                     //song.Lyrics.Verse.Lines += libraryItemLine.Text;
                 }
 
-                previousDTOSong = libraryItemLine;
+                previousDTOSong = libraryItemLines[i];
+
+                //If is last element in list
+                if (i == libraryItemLines.Count - 1)
+                {
+                    openLPVerses.Add(new Verse { Name = previousDTOSong.Name, Lines = verseLines });
+                }
             }
 
 
