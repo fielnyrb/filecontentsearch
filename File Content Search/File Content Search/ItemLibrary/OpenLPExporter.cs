@@ -72,13 +72,9 @@ namespace File_Content_Search.ItemLibrary
 
 
                     //Export library item to OpenLP format
-                    //Song openLPSong = BuildSong("", libraryItemLine);
-                    //SerializeSongToXml(openLPSong, "song.xml");
-                }
-                else
-                {
-                    //Add verse to song
-                    //song.Lyrics.Verse.Lines += libraryItemLine.Text;
+                    Song openLPSong = BuildSong(songTitle, openLPVerses);
+                    WriteXmlStringToFile(ReplaceEscapedBrTags(SerializeSongToXmlString(openLPSong)), "tst/" + songTitle + ".xml");
+                    openLPVerses.Clear();
                 }
 
                 previousDTOSong = libraryItemLines[i];
@@ -89,13 +85,9 @@ namespace File_Content_Search.ItemLibrary
                     openLPVerses.Add(new Verse { Name = previousDTOSong.Name, Lines = verseLines });
                 }
             }
-
-
-            string filePath = "song.xml";
-            //string xml = ReplaceEscapedBrTags(SerializeSongToXmlString(song));
         }
 
-        private Song BuildSong(String songTitle, DTOSongLine songLine)
+        private Song BuildSong(String songTitle, List<Verse> openLPVerses)
         {
             //Build song object
             Song song = new Song();
@@ -106,15 +98,23 @@ namespace File_Content_Search.ItemLibrary
 
             song.Properties = new Properties();
             song.Properties.Titles = new Titles();
-            //song.Properties.Titles.Title = libraryItemLine.Name;
+
+            song.Properties.Titles.Title = new List<string>();
+            song.Properties.Titles.Title.Add(songTitle);
 
             song.Properties.Authors = new Authors();
             song.Properties.Authors.Author = "Anonymous";
 
             song.Lyrics = new Lyrics();
-            //song.Lyrics.Verse = new Verse();
-            //song.Lyrics.Verse.Name = "v1";
-            //song.Lyrics.Verse.Lines = libraryItemLine.Text;
+            song.Lyrics.Verse = new List<Verse>();
+
+            foreach (Verse verse in openLPVerses)
+            {
+                Verse tempVerse = new Verse();
+                tempVerse.Name = verse.Name;
+                tempVerse.Lines = verse.Lines;
+                song.Lyrics.Verse.Add(tempVerse);
+            }
 
             return song;
         }

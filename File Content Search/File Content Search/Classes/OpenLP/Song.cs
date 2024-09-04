@@ -36,7 +36,7 @@ public class Properties
 public class Titles
 {
     [XmlElement(ElementName = "title")]
-    public string Title { get; set; }
+    public List<String> Title { get; set; }
 }
 
 public class Authors
